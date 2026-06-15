@@ -9,6 +9,7 @@ on:
 jobs:
   no-plans-to-merge:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == false
     permissions:
       issues: write
       pull-requests: write
