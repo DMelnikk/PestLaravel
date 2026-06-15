@@ -10,8 +10,7 @@ class TestController extends Controller
 
     }
 
-    public function show()
-    {
+    public function show() {
 
     }
 
