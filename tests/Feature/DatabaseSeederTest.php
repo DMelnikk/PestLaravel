@@ -80,5 +80,5 @@ it('does not add test user for production', function () {
 
     $this->artisan('db:seed');
 
-    $this->assertDatabaseCount(User::class,0);
+    $this->assertDatabaseCount(User::class, 0);
 });
