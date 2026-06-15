@@ -3,9 +3,7 @@
 use App\Models\Course;
 use Carbon\Carbon;
 
-
 use function Pest\Laravel\get;
-
 
 it('shows courses overview', function () {
     $firstCourse = Course::factory()->released()->create();
@@ -49,7 +47,6 @@ it('includes login if not logged in', function () {
         ->assertSeeText('Login')
         ->assertSee(route('login'));
 });
-
 
 it('includes logout if logged in', function () {
     loginAsUser();

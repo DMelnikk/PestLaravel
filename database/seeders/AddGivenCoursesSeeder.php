@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -15,10 +14,9 @@ class AddGivenCoursesSeeder extends Seeder
     public function run(): void
     {
 
-        if($this->isDataAlreadyGiven()) {
+        if ($this->isDataAlreadyGiven()) {
             return;
         }
-
 
         Course::create([
             'paddle_product_id' => 'pri_01ktm81b6ymqk7whjy8e54drqh',
@@ -50,7 +48,6 @@ class AddGivenCoursesSeeder extends Seeder
             'released_at' => now(),
         ]);
 
-
         Course::create([
             'paddle_product_id' => 'pri_01ktm7txf0hj238c61mng309fm',
             'slug' => Str::of('TDD The Laravel Way')->slug(),
@@ -70,8 +67,8 @@ class AddGivenCoursesSeeder extends Seeder
 
     private function isDataAlreadyGiven(): bool
     {
-        return Course::where('title','Laravel For Beginners')->exists()
-            && Course::where('title','Advanced Laravel')->exists()
-            && Course::where('title','TDD The Laravel Way')->exists();
+        return Course::where('title', 'Laravel For Beginners')->exists()
+            && Course::where('title', 'Advanced Laravel')->exists()
+            && Course::where('title', 'TDD The Laravel Way')->exists();
     }
 }

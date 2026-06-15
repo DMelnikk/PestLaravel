@@ -4,9 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Course;
 use App\Models\Video;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class AddGivenVideosSeeder extends Seeder
 {
@@ -98,5 +96,4 @@ class AddGivenVideosSeeder extends Seeder
             && $advancedLaravelCourse->videos()->count() === 3
             && $tddTheLaravelWayCourse->videos()->count() === 2;
     }
-
 }

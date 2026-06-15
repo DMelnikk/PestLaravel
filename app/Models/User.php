@@ -70,13 +70,13 @@ class User extends Authenticatable
 
     public function watchedVideos(): BelongsToMany
     {
-        return $this->belongsToMany(Video::class,'watched_videos')
+        return $this->belongsToMany(Video::class, 'watched_videos')
             ->withTimestamps();
     }
 
     public function purchasedCourses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class,'purchased_courses')
+        return $this->belongsToMany(Course::class, 'purchased_courses')
             ->withTimestamps()
             ->orderByDesc('pivot_created_at');
     }

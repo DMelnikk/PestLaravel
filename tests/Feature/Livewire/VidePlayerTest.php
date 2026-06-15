@@ -1,12 +1,9 @@
 <?php
 
-
 use App\Livewire\VideoPlayer;
 use App\Models\Course;
-use App\Models\User;
 use App\Models\Video;
 use Livewire\Livewire;
-
 
 function createCourseAndVideos(int $videosCount = 1): Course
 {
@@ -20,13 +17,11 @@ beforeEach(function () {
 });
 
 it('shows details for given video', function () {
- $course = createCourseAndVideos();
+    $course = createCourseAndVideos();
 
- $video = $course->videos->first();
+    $video = $course->videos->first();
 
-
-
-    Livewire::test(VideoPlayer::class,['video' => $video])
+    Livewire::test(VideoPlayer::class, ['video' => $video])
         ->assertSeeText([
             $video->title,
             $video->description,
@@ -34,17 +29,16 @@ it('shows details for given video', function () {
         ]);
 });
 
-it('shows given video',function () {
+it('shows given video', function () {
     $course = createCourseAndVideos();
 
     $video = $course->videos->first();
 
-    Livewire::test(VideoPlayer::class,['video' => $video])
-        ->assertSeeHtml('<iframe src="https://player.vimeo.com/video/' . $video->vimeo_id . '"');
+    Livewire::test(VideoPlayer::class, ['video' => $video])
+        ->assertSeeHtml('<iframe src="https://player.vimeo.com/video/'.$video->vimeo_id.'"');
 });
 
-
-it('shows list of all course videos',function () {
+it('shows list of all course videos', function () {
     $course = createCourseAndVideos(videosCount: 3);
 
     Livewire::test(VideoPlayer::class, ['video' => $course->videos()->first()])
@@ -59,7 +53,7 @@ it('shows list of all course videos',function () {
             route('page.course-videos', [
                 'course' => $course,
                 'video' => $course->videos[2],
-            ])
+            ]),
         ]);
 });
 
@@ -67,12 +61,12 @@ it('does not include route for current video', function () {
     $course = createCourseAndVideos();
 
     Livewire::test(VideoPlayer::class, ['video' => $course->videos()->first()])
-      ->assertDontSeeHtml([
-          route('page.course-videos', [
-              $course,
-              $course->videos()->first(),
-          ]),
-      ]);
+        ->assertDontSeeHtml([
+            route('page.course-videos', [
+                $course,
+                $course->videos()->first(),
+            ]),
+        ]);
 });
 
 it('marks video as completed', function () {
@@ -89,7 +83,6 @@ it('marks video as completed', function () {
         ->call('markVideoAsCompleted')
         ->assertMethodNotWired('markVideoAsCompleted')
         ->assertMethodWired('markVideoAsNotCompleted');
-
 
     $this->loggedInUser->refresh();
 
