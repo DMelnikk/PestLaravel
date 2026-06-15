@@ -1,0 +1,52 @@
+<?php
+
+use App\Models\Course;
+use App\Models\User;
+
+
+use App\Models\Video;
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
+
+
+it('gives back successful response for home page', function () {
+    // Act & Assert
+    get(route('pages.home'))
+        ->assertStatus(200);
+});
+
+it('gives back successful response for course details page', function () {
+   $course = Course::factory()->released()->create();
+
+   get(route('pages.course-details', $course))
+       ->assertOk();
+
+});
+
+it('gives back successful response for dashboard page', function () {
+    loginAsUser();
+    get(route('pages.dashboard'))
+        ->assertOk();
+});
+
+
+it('does not find JetSteam registration page', function () {
+   get('register')
+       ->assertNotFound();
+});
+
+it('gives successful response for videos page', function () {
+    $course = Course::factory()
+        ->has(Video::factory())
+        ->create();
+
+    loginAsUser();
+    get(route('page.course-videos',[
+        'course' => $course,
+        'video' => $course->videos->first()
+    ]))
+        ->assertOk();
+
+});
+
