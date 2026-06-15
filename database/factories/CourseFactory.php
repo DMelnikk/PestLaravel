@@ -27,7 +27,7 @@ class CourseFactory extends Factory
             'image_name' => 'image.png',
             'slug' => $this->faker->slug,
             'description' => $this->faker->paragraph,
-            'learnings' => ['Learn A','Learn B','Learn C'],
+            'learnings' => ['Learn A', 'Learn B', 'Learn C'],
         ];
     }
 

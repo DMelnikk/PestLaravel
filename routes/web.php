@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', PageHomeController::class)->name('pages.home');
 
-Route::get('courses/{course:slug}',PageCourseDetailsController::class)
+Route::get('courses/{course:slug}', PageCourseDetailsController::class)
     ->name('pages.course-details');
-
 
 Route::middleware([
     'auth:sanctum',

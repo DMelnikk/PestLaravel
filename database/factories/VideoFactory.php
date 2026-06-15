@@ -24,7 +24,7 @@ class VideoFactory extends Factory
             'vimeo_id' => $this->faker->uuid,
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'duration_in_min' => $this->faker->numberBetween(1,99),
+            'duration_in_min' => $this->faker->numberBetween(1, 99),
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AddLocalTestUserSeeder extends Seeder
@@ -13,7 +12,7 @@ class AddLocalTestUserSeeder extends Seeder
      */
     public function run(): void
     {
-        if(app()->environment() === 'local') {
+        if (app()->environment() === 'local') {
             User::create([
                 'email' => 'test@test.com',
                 'name' => 'Dmitri',
