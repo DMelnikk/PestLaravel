@@ -9,6 +9,7 @@ class TestController extends Controller
     public function index()
     {
         Redis::incr('landing-page-views');
+        // dsadsdasdasdas
     }
 
     public function show() {}
