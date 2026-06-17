@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-  larave-pint:
+  laravel-pint:
     runs-on: ubuntu-latest
     permissions:
       issues: write
