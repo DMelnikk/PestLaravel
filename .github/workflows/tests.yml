@@ -12,14 +12,11 @@ jobs:
       pull-requests: write
       contents: write
 
-
-  services:
-    redis:
-      image: redis:7.4
-      ports:
-        - 6379:6379
-
-
+    services:
+      redis:
+        image: redis:7.4
+        ports:
+          - 6379:6379
 
     steps:
       - name: Checkout Code
