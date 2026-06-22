@@ -19,6 +19,11 @@ inputs:
     description: The password used to authenticate Nova
     required: true
 
+  coverage:
+    description: The coverage driver to use
+    required: false
+    default : none
+
 runs:
    using: composite
    steps:
@@ -50,6 +55,7 @@ runs:
          php-version: ${{ inputs.php-version }}
          extensions: ${{ inputs.php-extensions}}
          tools: composer:v2
+         coverage: ${{inputs.coverage}}
 
      - name: Get composer cache dir
        id: composer-cache-dir
