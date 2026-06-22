@@ -2,16 +2,43 @@ name: Setup
 
 description: Sets up PHP and Composer
 
+inputs:
+  php-version:
+    description: The PHP version(s) you wish to use
+    required: true
+
+  php-extensions:
+    description: The php extensions you want to install
+    required: false
+    default: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+
+  nova-email:
+    description: The email used to authenticate Nova.
+    required: true
+  nova-password:
+    description: The password used to authenticate Nova
+    required: true
+
+  coverage:
+    description: The coverage driver to use
+    required: false
+    default : none
+
 runs:
    using: composite
    steps:
+     - name: Get PHP extension cache hash
+       id: get-cache-hash
+       run: echo hash=$(echo "${{ inputs.php-extensions }}" | md5sum | awk '{print $1}') >> $GITHUB_OUTPUT
+       shell: bash
+
      - name: Setup cache environment
        id: extcache
        uses: shivammathur/cache-extensions@v1
        with:
-         php-version: ${{env.PHP_VERSION}}
-         extensions: ${{env.PHP_EXTENSIONS}}
-         key: ${{env.CACHE_KEY}}
+         php-version: ${{ inputs.php-version }}
+         extensions: ${{ inputs.php-extensions}}
+         key: php-extensions-${{steps.get-cache-hash.outputs.hash}}
 
      - name: Cache extensions
        uses: actions/cache@v4
@@ -25,9 +52,10 @@ runs:
      - name: Setup PHP and Composer
        uses: shivammathur/setup-php@v2
        with:
-         php-version: ${{env.PHP_VERSION}}
-         extensions: ${{env.PHP_EXTENSIONS}}
+         php-version: ${{ inputs.php-version }}
+         extensions: ${{ inputs.php-extensions}}
          tools: composer:v2
+         coverage: ${{inputs.coverage}}
 
      - name: Get composer cache dir
        id: composer-cache-dir
@@ -41,3 +69,10 @@ runs:
          key: composer-cache-${{ hashFiles('**/composer.lock') }}
          path: ${{ steps.composer-cache-dir.outputs.dir }}
          restore-keys: composer-cache
+
+     - name: Authenticate Nova
+       env:
+         NOVA_EMAIL: ${{inputs.nova-email}}
+         NOVA_PASSWORD: ${{inputs.nova-password}}
+       run: composer config http-basic.nova.laravel.com "$NOVA_EMAIL" "$NOVA_PASSWORD"
+       shell: bash

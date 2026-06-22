@@ -1,7 +1,8 @@
 name: Tests
 
 on:
-  pull_request
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 
 jobs:
@@ -18,11 +19,6 @@ jobs:
         ports:
           - 6379:6379
 
-    env:
-      PHP_VERSION: '8.4'
-      PHP_EXTENSIONS: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-      CACHE_KEY: extension-cache-v1
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6.0.3
@@ -30,6 +26,14 @@ jobs:
 
       - name: Setup
         uses: ./.github/actions/setup
+        with:
+          php-version: '8.4'
+          php-extensions: 'dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite'
+          nova-email: ${{secrets.NOVA_EMAIL}}
+          nova-password:  ${{secrets.NOVA_PASSWORD}}
+          coverage: xdebug
+
+
 
 
       - name: Install Dependencies
@@ -45,5 +49,5 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
-        run: php artisan test --compact
+        run: php artisan test --compact --coverage
 
