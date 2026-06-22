@@ -18,6 +18,11 @@ jobs:
         ports:
           - 6379:6379
 
+    env:
+      PHP_VERSION: '8.4'
+      PHP_EXTENSIONS: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+      CACHE_KEY: extension-cache-v1
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6.0.3
@@ -27,9 +32,9 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: '8.4'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-          key: extension-cache-v1
+          php-version: ${{env.PHP_VERSION}}
+          extensions: ${{env.PHP_EXTENSIONS}}
+          key: ${{env.CACHE_KEY}}
 
       - name: Cache extensions
         uses: actions/cache@v4
@@ -43,8 +48,8 @@ jobs:
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          php-version: ${{env.PHP_VERSION}}
+          extensions: ${{env.PHP_EXTENSIONS}}
           tools: composer:v2
 
       - name: Get composer cache dir
