@@ -12,6 +12,13 @@ inputs:
     required: false
     default: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
 
+  nova-email:
+    description: The email used to authenticate Nova.
+    required: true
+  nova-password:
+    description: The password used to authenticate Nova
+    required: true
+
 runs:
    using: composite
    steps:
@@ -56,3 +63,10 @@ runs:
          key: composer-cache-${{ hashFiles('**/composer.lock') }}
          path: ${{ steps.composer-cache-dir.outputs.dir }}
          restore-keys: composer-cache
+
+     - name: Authenticate Nova
+       env:
+         NOVA_EMAIL: ${{inputs.nova-email}}
+         NOVA_PASSWORD: ${{inputs.nova-password}}
+       run: composer config http-basic.nova.laravel.com "$NOVA_EMAIL" "$NOVA_PASSWORD"
+       shell: bash

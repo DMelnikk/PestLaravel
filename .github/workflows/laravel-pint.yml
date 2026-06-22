@@ -25,6 +25,8 @@ jobs:
         uses: ./.github/actions/setup
         with:
           php-version: '8.4'
+          nova-email: ${{secrets.NOVA_EMAIL}}
+          nova-password: ${{secrets.NOVA_PASSWORD}}
 
       - name: Install Laravel Pint
         run: composer global require laravel/pint
