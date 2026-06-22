@@ -30,6 +30,12 @@ jobs:
           php-version: '8.4'
           php-extensions: 'dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite'
 
+      - name: Authenticate Nova
+        env:
+          NOVA_EMAIL: ${{secrets.NOVA_EMAIL}}
+          NOVA_PASSWORD: ${{secrets.NOVA_PASSWORD}}
+        run: composer config http-basic.nova.laravel.com "$NOVA_EMAIL" "$NOVA_PASSWORD"
+
 
       - name: Install Dependencies
         run: composer install -q --no-interaction
