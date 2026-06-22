@@ -18,23 +18,19 @@ jobs:
         ports:
           - 6379:6379
 
+    env:
+      PHP_VERSION: '8.4'
+      PHP_EXTENSIONS: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+      CACHE_KEY: extension-cache-v1
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6.0.3
 
 
-      - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
-          tools: composer:v2
+      - name: Setup
+        uses: ./.github/actions/setup
 
-      - name: Cache dependencies
-        uses: actions/cache@v5.0.5
-        with:
-          key: composer-cache-${{ hashFiles('**/composer.lock') }}
-          path: vendor/
 
       - name: Install Dependencies
         run: composer install -q --no-interaction
