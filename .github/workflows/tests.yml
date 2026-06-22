@@ -30,11 +30,17 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           tools: composer:v2
 
+      - name: Get composer cache dir
+      - id: composer-cache-dir
+      - run: echo dir=$(composer config cache-files-dir) >> $GITHUB_OUTPUT
+
+
       - name: Cache dependencies
         uses: actions/cache@v5.0.5
         with:
           key: composer-cache-${{ hashFiles('**/composer.lock') }}
-          path: vendor/
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
+          restore-keys: composer-cache
 
       - name: Install Dependencies
         run: composer install -q --no-interaction
